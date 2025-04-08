@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class menuManager : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class menuManager : MonoBehaviour
     public bool p1Text;
     public bool outOfTime;
     public TextMeshProUGUI gameStatus;
+    public Button restartButton;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +41,7 @@ public class menuManager : MonoBehaviour
 
         if (p2Text == true)
         {
-            gameStatus.text = "ur mom hella gay";
+            gameStatus.text = stupivisor.textStatic;
         }
 
         if (p1Text)
@@ -50,5 +53,10 @@ public class menuManager : MonoBehaviour
         {
             gameStatus.text = stupivisor.textStatic;
         }
+    }
+
+    public void restartGame()
+    {
+        SceneManager.LoadScene("AdamYarisCreate3");
     }
 }
