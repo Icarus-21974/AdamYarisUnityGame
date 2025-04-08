@@ -31,7 +31,6 @@ public class menuManager : MonoBehaviour
         if (PlayerScript.p1Static == true)
         {
             p1Text = true;
-            //1234
         }
 
         if(stupivisor.timeOut == true)
