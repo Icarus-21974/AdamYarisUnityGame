@@ -116,7 +116,7 @@ public class stupivisor : MonoBehaviour
         }
     }
 
-    public void changeScene(string scenename /*, string deactivate*/)
+    public void changeScene(string scenename)
     {
         SceneManager.GetSceneByName(scenename);
         SceneManager.LoadScene(scenename);
