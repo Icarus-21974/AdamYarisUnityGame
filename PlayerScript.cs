@@ -49,9 +49,11 @@ public class PlayerScript : MonoBehaviour
             //123
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) && canJump ==true)
         {
             GetComponent<Rigidbody2D>().AddForce(addUp);
+            canJump = false;
+            inAir = true;
         }
 
         if (Input.GetKey(KeyCode.A))
@@ -71,9 +73,9 @@ public class PlayerScript : MonoBehaviour
             projSpawn();
         }
 
-        if(doubleJump && inAir)
+        if( inAir==true && doubleJump == true)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
             {
                 GetComponent<Rigidbody2D>().AddForce(addUp);
                 doubleJump = false;
@@ -125,22 +127,27 @@ public class PlayerScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag =="ground")
+        if (collision.gameObject.tag =="Ground")
         {
             canJump = true;
             inAir = false;
             
         }
 
-        if(collision.gameObject.tag == "DoublePower") {
+        if(collision.gameObject.tag == "DoublePower") 
+        {
             extraPower = true;
+            Destroy(collision.gameObject);
         }
 
-        if(collision.gameObject.tag == "JumpPower") {
+        if(collision.gameObject.tag == "JumpPower") 
+        {
             doubleJump = true;
+            Destroy(collision.gameObject);
         }
 
-        if(collision.gameObject.tag =="Projectile") {
+        if(collision.gameObject.tag =="Projectile") 
+        {
             pushTimer = 0;
 
             if (dir == 1)
@@ -154,6 +161,26 @@ public class PlayerScript : MonoBehaviour
             }
 
             if(pushTimer > 2.5f)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        if (collision.gameObject.tag == "SuperProjectile")
+        {
+            pushTimer = 0;
+
+            if (dir == 1)
+            {
+                GetComponent<Rigidbody2D>().AddForce(projForce * 2);
+            }
+
+            if (dir == -1)
+            {
+                GetComponent<Rigidbody2D>().AddForce(-projForce * 2);
+            }
+
+            if (pushTimer > 2.5f)
             {
                 Destroy(gameObject);
             }

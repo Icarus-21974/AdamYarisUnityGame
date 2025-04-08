@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using JetBrains.Annotations;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -31,6 +32,9 @@ public class stupivisor : MonoBehaviour
 
     //this is a list that will be used for spawning the locatiosn
     public List<Vector3> powerUpLocations;
+    public List<int> randomNum;
+    public int gen;
+    public Vector3 spawn;
 
 
 
@@ -50,12 +54,17 @@ public class stupivisor : MonoBehaviour
         powerUpLocations.Add(new Vector3(2, 7,0));
         powerUpLocations.Add(new Vector3(5, 7,0));
 
+        randomNum = new List<int>();
+        randomNum.Add(0);
+        randomNum.Add(1);
+
         //intializing our variables
         powerUpTimer = 0;
         gameOver = false;
         gameTimer = 540;
         goMain = false;
         timeOut = false;
+        gen = 0;
     }
 
     // Update is called once per frame
@@ -65,6 +74,7 @@ public class stupivisor : MonoBehaviour
         //So we will only go 2 decimal places when game timer is being shown on screen
         timerText.text = gameTimer.ToString("F2");
         gameDone();
+        randomPowerSpawn(powerUpLocations, randomNum);
 
         if (gameOver == true)
         {
@@ -120,6 +130,26 @@ public class stupivisor : MonoBehaviour
     {
         SceneManager.GetSceneByName(scenename);
         SceneManager.LoadScene(scenename);
+    }
+
+    void randomPowerSpawn(List<Vector3> p, List<int> n)
+    {
+        if (powerUpTimer > 15)
+        {
+            spawn = p[Random.Range(0, p.Count)];
+            gen += n[Random.Range(0, n.Count)];
+            if (gen >0)
+            {
+                Instantiate(powerUpJump, spawn, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(powerUpForce, spawn, Quaternion.identity);
+            }
+
+            gen = 0;
+            powerUpTimer = 0;
+        }
     }
 }
 

@@ -142,5 +142,25 @@ public class playerTwoScript : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if (collision.gameObject.tag == "SuperProjectile")
+        {
+            pushTimer = 0;
+
+            if (dir == 1)
+            {
+                GetComponent<Rigidbody2D>().AddForce(projForce*2);
+            }
+
+            if (dir == -1)
+            {
+                GetComponent<Rigidbody2D>().AddForce(-projForce * 2);
+            }
+
+            if (pushTimer > 2.5f)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 }
