@@ -18,10 +18,13 @@ public class stupivisor : MonoBehaviour
     public GameObject powerUpForce;
     public GameObject PlayerOne;
     public GameObject PlayerTwo;
+    public GameObject pauseScreen;
+    public GameObject unPauseButton;
 
     //booleans that will supply functions and will have different purposes in other classes
     public bool gameOver;
     public bool goMain;
+    public bool gamePaused;
     public static bool timeOut;
 
     //these will be used for text boxes that the player will read or that will be used in different classes
@@ -65,6 +68,10 @@ public class stupivisor : MonoBehaviour
         goMain = false;
         timeOut = false;
         gen = 0;
+
+        pauseScreen.SetActive(false);
+        unPauseButton.SetActive(false);
+        gamePaused = false;
     }
 
     // Update is called once per frame
@@ -87,21 +94,38 @@ public class stupivisor : MonoBehaviour
         }
 
         textStatic = gameText.text;
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            gamePaused = true;
+            pauseScreen.SetActive(true);
+            unPauseButton.SetActive(true);
+        }
     }
 
     //fixed update isn't depenedent on frames, and uses the start time of the scene/when the game starts.
     //This is better for timers since you don't have to worry about frames
     private void FixedUpdate()
     {
-        powerUpTimer += Time.fixedDeltaTime;
+        if (gamePaused == true)
+        {
+            powerUpTimer = powerUpTimer;
+            gameTimer = gameTimer;
+        }
+        else
+        {
+            powerUpTimer += Time.fixedDeltaTime;
 
-        gameTimer -= Time.fixedDeltaTime;
+            gameTimer -= Time.fixedDeltaTime;
+        }
+
     }
 
     //this i sa funciton that will give us text based on the ending of our game 
     //like if player one or player two falls off the map or if there is a draw (time runs out)
     public void gameDone()
     {
+
         if(FindObjectOfType<PlayerScript>().p1FellOff == true)
         {
             timerText.text = "";
@@ -150,6 +174,13 @@ public class stupivisor : MonoBehaviour
             gen = 0;
             powerUpTimer = 0;
         }
+    }
+
+    public void unpauseGame()
+    {
+        gamePaused = false;
+        pauseScreen.SetActive(false);
+        unPauseButton.SetActive(false);
     }
 }
 
